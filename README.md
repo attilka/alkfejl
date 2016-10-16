@@ -8,12 +8,19 @@
 A program legfőbb célja, hogy a felhasználók egy helyen értesüljenek kedvenc zenekaraik fellépéséről egy webes vastagkliens, azaz        egyoldali alkalmazás felhasználásával Az adatok védelme érdekében legyen lehetőség regisztrációra, majd bejelentkezésre. Bejelentkezett   felhasználó megjelölheti kedvenc zenekarjait, elmentheti az eseményeket. Bejelentkezett zenekarként lehetőség van új esemény létrehozására 
 
 **Funkcionális követelmények:**
+
 -Regisztráció
+
 -Bejelentkezés
--Csak bejelentkezett felhasználók által elérhető funkciók
+
+-Csak bejelentkezett felhasználók által elérhető funkciók:
+
   -zenekar megjelölése
+ 
   -események mentése
+  
   -események listázása kedvenc zenekarokra szűrve
+  
 
 **Nem funkcionális követelmények:**
 *Könnyű áttekinthetőség: Színekkel típus szerint csoportosítás 
