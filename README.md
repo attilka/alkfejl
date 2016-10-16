@@ -18,7 +18,9 @@ A program legfőbb célja, hogy a felhasználók egy helyen értesüljenek kedve
 *Karbantarthatóság: könnyen lehessen bővíteni, a különböző típusú fájlok külön csoportosítva, ésszerűen legyenek felbontva, a könnyebb fejleszthetőség miatt
   4. Használatieset-modell, funkcionális követelmények
 ![Use-Case Diagram](docs/img/usecase.png)
+
 ###2. Tervezés
+
   1. Architektúra terv
 ![Architektúra](docs/img/database.png)
   2.Oldalvázlatok:
