@@ -1,4 +1,4 @@
-#Dokumentáció
+/#Dokumentáció
 ##Közelgő események
 
 ###1. Követelményanalízis
@@ -17,11 +17,11 @@ A program legfőbb célja, hogy a felhasználók egy helyen értesüljenek kedve
 *Megbízhatóság: jelszóval védett funkciók, és a jelszavak védelme a háttérben. Hibásan bevitt adatok esetén a program jól láthatóan jelezzen a felhasználónak, és emelje ki a hibás beviteli mezőket. A jól bevitt adatok maradjanak az űrlapban. 
 *Karbantarthatóság: könnyen lehessen bővíteni, a különböző típusú fájlok külön csoportosítva, ésszerűen legyenek felbontva, a könnyebb fejleszthetőség miatt
   4. Használatieset-modell, funkcionális követelmények
-![Use-Case Diagram](docs\img\usecase.png)
+![Use-Case Diagram](docs/img/usecase.png)
 ###2. Tervezés
   1. Architektúra terv
-![Architektúra](docs\img\database.png)
+![Architektúra](docs/img/database.png)
   2.Oldalvázlatok:
-![Közelgő események](docs\img\events.png)
-![Zenekarok](docs\img\bands.png)
-![Új esemény hozzáadása](docs\img\add_event.png)
+![Közelgő események](docs/img/events.png)
+![Zenekarok](docs/img/bands.png)
+![Új esemény hozzáadása](docs/img/add_event.png)
