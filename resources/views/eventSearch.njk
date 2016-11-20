@@ -2,87 +2,41 @@
 
 {% block title %}Események{% endblock %}
 {% block content %}
-{% if currentUser %}
+{% if currentUser and not currentUser.isBand %}
 <div class="btn-group" role="group" aria-label="...">
   <a href="events?filter=bands"><button type="button" class="btn btn-default">Zenekarjaim</button></a>
   <a href="events?filter=myevents"><button type="button" class="btn btn-default">Részt veszek</button></a>
   <a href="events"><button type="button" class="btn btn-default">Összes</button></a>
 </div>
+<hr>
 {% endif %}
-  <!--<form action="/recipes" method="GET">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="form-group">
-          <label for="inputRecipeName">Recept neve</label>
-          <input type="text" class="form-control" placeholder="Recept neve" id="inputRecipeName" name="recipeName" value="{{ filters.recipeName }}">
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <label for="inputCategory">Kategória</label>
-          <select class="form-control" id="inputCategory" name="category">
-            <option value="">--</option>
-            {% for category in categories %}
-            {% if filters.category == category.id %}
-            <option value="{{ category.id }}" selected>{{ category.name }}</option>
-            {% else %}
-            <option value="{{ category.id }}">{{ category.name }}</option>
-            {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <label for="inputCreatedBy">Beküldte</label>
-          <select class="form-control" id="inputCreatedBy" name="createdBy">
-            <option value="">--</option>
-            {% for user in users %}
-            {% if filters.createdBy == user.id %}
-            <option value="{{ user.id }}" selected>{{ user.username }}</option>
-            {% else %}
-            <option value="{{ user.id }}">{{ user.username }}</option>
-            {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <label>&nbsp;</label>
-          <button class="btn btn-block btn-primary" type="submit">Szűrés</button>
-        </div>
-      </div>
-    </div>
-  </form>
-  <h2>Találatok ({{ recipes.total }})</h2>-->
   {% for event in events.data %}
-  <a href="/events/{{event.id}}">
+  
     <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">{{ event.band.name }}</h3>
+    <a href="/events/{{event.id}}"><h3 class="panel-title">{{ event.band.name }}</h3></a>
   </div>
   <div class="panel-body">
     {{ event.date }}<br/>{{ event.tickets }}<p class="description">{{ event.description }}</p>
   </div>
 </div>
-</a>
+
   {% else %}
   Nincs közelgő esemény.
   {% endfor %}
-  <!--{% if recipes.lastPage > 1 %}
+  {% if events.lastPage > 1 %}
   <div class="text-center">
     <ul class="pagination">
-      {% for page in range(1, recipes.lastPage + 1) %}
-      {% if page == recipes.currentPage %}
+      {% for page in range(1, events.lastPage + 1) %}
+      {% if page == events.currentPage %}
       <li class="active">
-        <a href="/recipes?p={{ page }}&amp;recipeName={{ filters.recipeName }}&amp;category={{ filters.category }}&amp;createdBy={{ filters.createdBy }}">{{ page }}</a>
+        <a href="/events?p={{ page }}&amp;filter={{ filter }}">{{ page }}</a>
       </li>
       {% else %}
-      <li><a href="/recipes?p={{ page }}&amp;recipeName={{ filters.recipeName }}&amp;category={{ filters.category }}&amp;createdBy={{ filters.createdBy }}">{{ page }}</a></li>
+      <li><a href="/events?p={{ page }}&amp;filter={{ filter }}">{{ page }}</a></li>
       {% endif %}
       {% endfor %}
     </ul>
   </div>
-  {% endif %}-->
+  {% endif %}
 {% endblock %}

@@ -65,7 +65,8 @@ class EventController {
       .paginate(page, 9)
 
     yield response.sendView('eventSearch', {
-      events: events.toJSON()
+      events: events.toJSON(),
+      filter: filter
     })
   }
 

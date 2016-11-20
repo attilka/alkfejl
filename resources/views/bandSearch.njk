@@ -18,7 +18,7 @@
       </div>
     </div>
   </form>
-  <h2>Találatok ({{ bands.total }})</h2>
+  <hr>
   {% for bandBatch in bands.data | batch(3) %}
   <div class="row">
     {% for band in bandBatch %}

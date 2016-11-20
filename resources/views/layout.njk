@@ -47,7 +47,11 @@
           
           <ul class="nav navbar-nav navbar-right">
             {% if currentUser %}
-              <li class="navbar-text">Üdv, {{ currentUser.username }}!</li>
+              {% if currentUser.isBand %}
+                <a href="/bands/edit"><li class="navbar-text">{{ currentUser.username }}</li></a>
+              {%else%}
+                <li class="navbar-text">Üdv, {{ currentUser.username }}!</li>
+              {%endif%}
               <li><a href="/logout">Kilépés</a></li>
             {% else %}
               <li><a href="/login">Belépés</a></li>
