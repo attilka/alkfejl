@@ -1,0 +1,63 @@
+{% extends "layout" %}
+
+{% block content %}
+
+{% if old('errors') %}
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Hibák</h3>
+  </div>
+  <div class="panel-body">
+    <ul>
+      {% for error in old('errors') %}
+      <li>{{ error.message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
+
+<form class="form-horizontal" method="post">
+
+  {{ csrfField }}
+
+  <div class="form-group">
+    <label for="name" class="col-lg-2 control-label">Zenekar neve</label>
+    <div class="col-lg-10">
+      <input type="text" class="form-control" id="name" name="name" placeholder="Zenekar neve" value="{{ band.name }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="genre" class="col-lg-2 control-label">Műfaj</label>
+    <div class="col-lg-10">
+      <input type="text" class="form-control" id="genre" name="genre" placeholder="Műfaj" value="{{ band.genre }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="members" class="col-lg-2 control-label">Tagok</label>
+    <div class="col-lg-10">
+      <input type="text" class="form-control" id="members" name="members" placeholder="Tagok" value="{{ band.members }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="page" class="col-lg-2 control-label">Honlap</label>
+    <div class="col-lg-10">
+      <input type="text" class="form-control" id="page" name="page" placeholder="Honlap" value="{{ band.page }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-lg-2 control-label">Leírás</label>
+    <div class="col-lg-10">
+      <textarea class="form-control" rows="4" cols="100" placeholder="Leírás" id="description" name="description">{{ band.description }}</textarea> 
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-lg-10 col-lg-offset-2">
+      <button type="reset" class="btn btn-default">Mégsem</button>
+      <button type="submit" class="btn btn-primary">Küldés</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

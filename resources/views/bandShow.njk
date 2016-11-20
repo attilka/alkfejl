@@ -1,0 +1,22 @@
+{% extends "layout" %}
+
+{% block content %}
+<h2>{{ band.name }}</h2>
+<p>{{ band.genre }}</p>
+<h3>Tagok</h3>
+<pre>
+{{ band.members }}
+</pre>
+<h3>Leírás</h3>
+<pre>
+{{ band.description }}
+</pre>
+
+<a href="/like/{{band.id}}">
+{% if (band.likes) %}
+Mégsem tetszik
+{% else %}
+Tetszik
+{% endif %}
+</a>
+{% endblock %}

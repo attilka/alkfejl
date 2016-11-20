@@ -1,0 +1,20 @@
+{% extends "layout" %}
+
+{% block content %}
+<h2>{{ event.band.name }}</h2>
+<p>{{ event.date }}</p>
+<h3>Jegyek</h3>
+<a href="{{ event.tickets}}">{{event.tickets}}</a>
+<h3>Leírás</h3>
+<pre>
+{{ event.description }}
+</pre>
+
+<a href="/attend/{{event.id}}">
+{% if (event.attends) %}
+Mégsem veszek részt
+{% else %}
+Részt veszek
+{% endif %}
+</a>
+{% endblock %}
