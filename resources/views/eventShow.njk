@@ -9,12 +9,13 @@
 <pre>
 {{ event.description }}
 </pre>
-
-<a href="/attend/{{event.id}}">
-{% if (event.attends) %}
-Mégsem veszek részt
-{% else %}
-Részt veszek
+{%if currentUser and not currentUser.isBand %}
+    <a href="/attend/{{event.id}}">
+    {% if (event.attends) %}
+        Mégsem veszek részt
+    {% else %}
+        Részt veszek
+    {% endif %}
+    </a>
 {% endif %}
-</a>
 {% endblock %}

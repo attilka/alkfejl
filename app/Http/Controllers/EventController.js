@@ -59,7 +59,7 @@ class EventController {
       .where(function () {
         this.where('date','>=',new Date().toJSON().substr(0,10))
         if (filter == 'bands') this.where('band_id','IN', subquery)
-        if (filter == 'myevents') this.where('event_id', 'IN', subquery)
+        if (filter == 'myevents') this.where('id', 'IN', subquery)
       })
       .with('band')
       .paginate(page, 9)
@@ -73,8 +73,9 @@ class EventController {
     * show (request, response) {
     const id = request.param('id');
     const event = yield Event.find(id);
-
-    const attends = yield Attend.query().where('user_id', request.currentUser.id).where('event_id',id).first();
+    var attends = false;
+    if (request.currentUser)
+        attends = yield Attend.query().where('user_id', request.currentUser.id).where('event_id',id).first();
 
     yield event.related('band').load();
 
