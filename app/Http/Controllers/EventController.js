@@ -39,10 +39,57 @@ class EventController {
         response.redirect('/')
     }
 
+    * edit (request, response) {
+    const id = request.param('id')
+    const event = yield Event.find(id)
+    const band= yield Band.findBy('user_id', request.currentUser.id)
+
+
+    if (band == null || band.id != event.band_id) {
+      response.unauthorized('Access denied.')
+      return
+    }
+
+    yield response.sendView('eventEdit', {
+      event: event.toJSON()
+    });
+  }
+
+  * doEdit (request, response) {
+    const bandData = request.except('_csrf');
+
+    const rules = {
+      name: 'required'
+    };
+
+    const validation = yield Validator.validateAll(bandData, rules)
+
+    if (validation.fails()) {
+      yield request
+        .withAll()
+        .andWith({errors: validation.messages()})
+        .flash()
+      response.redirect('back')
+      return
+    }
+
+    const band = yield Band.findBy('user_id', request.currentUser.id)
+    
+    band.name = bandData.name;
+    band.genre = bandData.genre;
+    band.page = bandData.page;
+    band.members = bandData.members;
+    band.description = bandData.description;
+
+    yield band.save()
+    
+    response.redirect('/')
+  }
+
     * search (request, response) {
     const page = Math.max(1, request.input('p'))
-    const filter = request.input('filter')
-    var subquery
+    let filter = request.input('filter')
+    let subquery
     if( filter == 'bands')
         subquery = Database
             .from('likes')
@@ -54,6 +101,10 @@ class EventController {
             .from('attends')
             .where('user_id', request.currentUser.id)
             .select('event_id')
+    if(request.currentUser && request.currentUser.isBand){
+      filter='bands'
+      subquery=(yield Band.findBy('user_id',request.currentUser.id)).id
+    }
 
     const events = yield Event.query()
       .where(function () {

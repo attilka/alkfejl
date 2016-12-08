@@ -12,6 +12,8 @@ Route.get('like/:id', 'BandController.like').middleware('auth')
 
 Route.get('/events/create', 'EventController.create').middleware('auth')
 Route.post('/events/create', 'EventController.doCreate').middleware('auth')
+Route.get('/events/edit/:id', 'EventController.edit').middleware('auth')
+Route.post('/events/edit/:id', 'EventController.doEdit').middleware('auth')
 Route.get('/events', 'EventController.search')
 Route.get('/events/:id', 'EventController.show')
 Route.get('attend/:id', 'EventController.attend').middleware('auth')

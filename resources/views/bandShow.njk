@@ -2,10 +2,14 @@
 
 {% block content %}
 <h2>{{ band.name }}</h2>
-<p>{{ band.genre }}</p>
+{{ band.genre }}
 <h3>Tagok</h3>
 <pre>
 {{ band.members }}
+</pre>
+<h3>Honlap</h3>
+<pre>
+<a href="httpl://{{band.page}}">{{ band.page }}</a>
 </pre>
 <h3>Leírás</h3>
 <pre>
