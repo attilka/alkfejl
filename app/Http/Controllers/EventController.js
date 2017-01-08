@@ -130,6 +130,11 @@ class EventController {
       .with('band')
       .paginate(page, 9)
 
+      if (request.currentUser)
+      for (let event of events){
+        event.attends=yield event.attendBy(request.currentUser.id)
+      }
+
     yield response.sendView('eventSearch', {
       events: events.toJSON(),
       filter: filter
@@ -163,6 +168,28 @@ class EventController {
 
         response.redirect('/events/'+id)
 
+  }
+
+  * ajaxAttend(request, response){
+      const id = request.post().event_id;
+      const user_id = request.post().user_id;
+      var resp = 'attends';
+      var icon = 'remove';
+
+       const attends = yield Attend.query().where('user_id', user_id).where('event_id',id).first();
+      if (attends){
+        yield attends.delete()
+        resp ='not-attends'
+        icon ='ok'
+      }  
+      else
+         yield Attend.create({event_id: id, user_id: user_id})
+
+      response.ok({
+          success:true,
+          attends: resp,
+          class: icon
+      })
   }
 
 }

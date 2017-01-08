@@ -3,6 +3,8 @@
 {% block title %}Zenekarok{% endblock %}
 {% block content %}
   <form action="/bands" method="GET">
+
+   {{ csrfField }}
     <!--<div class="row">
       <div class="col-md-3">
         <div class="form-group">
@@ -37,13 +39,15 @@
         <div class="panel panel-default band-container">
           <div class="panel-body">
           <table>
-          <tr><td class="band-image-container" style="background-image: url('/avatars/{% if band.avatar %}{{ band.avatar }}{% else %}default.jpg{% endif %}')">
-          <!--<img src="/avatars/{% if band.avatar %}{{ band.avatar }}{% else %}default.jpg{% endif %}" class="avatar">-->
-          </td></tr>
-          <tr><td class="band-info">
-            <strong>{{ band.name }}</strong><br>
-            <em>{{ band.genre }}</em>
+            <tr><td class="band-image-container" style="background-image: url('/avatars/{% if band.avatar %}{{ band.avatar }}{% else %}default.jpg{% endif %}')" colspan="2">
+            <!--<img src="/avatars/{% if band.avatar %}{{ band.avatar }}{% else %}default.jpg{% endif %}" class="avatar">-->
             </td></tr>
+            <tr><td class="band-info">
+              <strong>{{ band.name }}</strong><br>
+              <em>{{ band.genre }}</em>
+              </td>
+            <td class="like-cell {% if band.liked %}liked{% else %}not-liked{%endif%}" data-id="{{band.id}}"></td>
+            </tr>
           </table>
           </div>
         </div>
@@ -69,4 +73,43 @@
     </ul>
   </div>
   {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+  function addLikeButton(likeCell){
+    var likeButton=$('<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>');
+    likeButton.appendTo(likeCell);
+
+    likeButton.on('click',function(ev){
+      ev.preventDefault();
+      var band_id=$(this).parent().data('id')
+
+      const headers = { 
+          'csrf-token': $('[name="_csrf"]').val() 
+      } 
+
+      $.ajax({ 
+        url: '/bands/ajaxLike', 
+        method: 'POST', 
+        dataType: 'json',
+        headers, 
+        data:{
+          band_id: band_id,
+          user_id: '{{currentUser.id}}'
+        }
+      }).done(function (data) {
+            $(likeCell).removeClass('liked not-liked').addClass(data.resp)
+      }).fail(function (err) { 
+           alert(err) 
+      }) 
+    })
+  }
+
+  $('.like-cell').each(function(){
+    addLikeButton(this)
+  })
+  
+</script>
 {% endblock %}

@@ -56,3 +56,31 @@
 .event-container .panel-heading{
   margin: 1px;
 }
+
+.liked, .not-liked{
+  vertical-align: middle;
+  font-size: 1.2em;
+}
+
+.not-liked{
+  color:black;
+}
+
+.liked:hover, .not-liked:hover{
+  color:indigo;
+}
+
+.event-attend{
+  margin-top: 4px;
+  margin-right: 6px;
+  font-size: 1.2em;
+  color:black;
+}
+
+.attends:hover{
+  color:red;
+}
+
+.not-attends:hover{
+  color:green;
+}

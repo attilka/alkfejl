@@ -59,10 +59,46 @@
     <div class="col-lg-10 col-lg-offset-2">
       <button type="reset" class="btn btn-default">Mégsem</button>
       <button type="submit" class="btn btn-primary">Mentés</button>
-      <a href="/bands/delete/"><button type="button" class="btn btn-danger pull-right">Törlés</button></a>
+      <a href="/bands/delete/"><button id="deleteButton" type="button" class="btn btn-danger pull-right">Törlés</button></a>
     </div>
   </div>
 </form>
 <a href="/bands/avatar/">Profilkép módosítása</a>
 
+<div class="modal fade confirm-modal" tabindex="-1" role="dialog" id="deleteConfirmModal"> 
+    <div class="modal-dialog modal-sm" role="document"> 
+        <div class="modal-content"> 
+            <div class="modal-body"> 
+                Biztosan törölni szeretnéd a zenekart? 
+            </div> 
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-success modal-ok" data-dismiss="modal">Igen</button> 
+                <button type="button" class="btn btn-danger modal-cancel" data-dismiss="modal">Mégse</button> 
+            </div> 
+        </div> 
+    </div> 
+</div> 
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $('#deleteButton').on('click',function(ev){
+        ev.preventDefault();
+
+        var _resolve = function () { 
+            window.location.replace("/bands/delete");
+        }
+
+        var _reject = function () { 
+            modal.modal('hide'); 
+        }
+
+        var modal = $('#deleteConfirmModal'); 
+        modal.modal('show'); 
+        modal.find('.modal-ok').on('click', _resolve) 
+        modal.find('.modal-cancel').on('click', _reject) 
+    })
+    
+</script>
 {% endblock %}

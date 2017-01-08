@@ -17,6 +17,11 @@ class Event extends Lucid {
 
         yield this.delete()
   }
+
+  * attendBy(user_id){
+        const attend=yield Attend.query().where('user_id',user_id).where('event_id',this.id).first()
+        return attend ? true : false;
+    }
 }
 
 module.exports = Event

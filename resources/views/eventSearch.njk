@@ -10,9 +10,13 @@
 </div>
 <hr>
 {% endif %}
+{{ csrfField }}
   {% for event in events.data %}
   
     <div class="panel panel-default event-container">
+      {% if currentUser and not currentUser.isBand %}
+        <a href="#"><div class="pull-right event-attend {% if event.attends %}attends{% else %}not-attends{%endif%}" data-id="{{event.id}}"></div></a>
+      {% endif %}
       <div class="panel-heading">
         <a href="/events/{{event.id}}"><h3 class="panel-title">{{ event.band.name }}</h3></a>
       </div>
@@ -39,4 +43,45 @@
     </ul>
   </div>
   {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+  function addAttendButton(attendContainer){
+    var _class = $(attendContainer).hasClass('attends') ? 'remove' : 'ok'
+    var attendButton = $(`<span class="glyphicon glyphicon-${_class}" aria-hidden="true"></span>`);
+    attendButton.appendTo(attendContainer);
+
+    attendButton.on('click',function(ev){
+      ev.preventDefault();
+      var event_id=$(this).parent().data('id')
+
+      const headers = { 
+          'csrf-token': $('[name="_csrf"]').val() 
+      } 
+
+      $.ajax({ 
+        url: '/events/ajaxAttend', 
+        method: 'POST', 
+        dataType: 'json',
+        headers, 
+        data:{
+          event_id: event_id,
+          user_id: '{{currentUser.id}}'
+        }
+      }).done(function (data) {
+            $(attendContainer).removeClass('attends not-attends').addClass(data.attends)
+            $(attendButton).removeClass('glyphicon-ok glyphicon-remove').addClass('glyphicon-'+data.class)
+      }).fail(function (err) { 
+           alert(err) 
+      }) 
+    })
+  }
+
+  $('.event-attend').each(function(){
+    addAttendButton(this)
+  })
+  
+</script>
 {% endblock %}

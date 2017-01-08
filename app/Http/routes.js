@@ -27,3 +27,6 @@ Route.get('/login', 'UserController.login')
 Route.post('/register', 'UserController.doRegister')
 Route.post('/login', 'UserController.doLogin')
 Route.get('/logout', 'UserController.doLogout')
+
+Route.post('/bands/ajaxLike', 'BandController.ajaxLike')
+Route.post('/events/ajaxAttend', 'EventController.ajaxAttend')

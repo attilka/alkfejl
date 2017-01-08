@@ -91,6 +91,10 @@ class BandController {
       .orderBy('name')
       .paginate(page, 12)
 
+      for (let band of bands){
+        band.liked=yield band.likedBy(request.currentUser.id)
+      }
+
     yield response.sendView('bandSearch', {
       bands: bands.toJSON(),
       bandName: name
@@ -144,6 +148,25 @@ class BandController {
 
   * updateAvatar (request, response) {
     yield response.sendView('updateAvatar')
+  }
+
+  * ajaxLike(request, response){
+      const id = request.post().band_id;
+      const user_id = request.post().user_id;
+      var resp = 'liked'
+
+      const likes = yield Like.query().where('user_id', user_id).where('band_id',id).first();
+      if (likes){
+        yield likes.delete()
+        resp='not-liked'
+      }  
+      else
+        yield Like.create({band_id: id, user_id: user_id})
+
+      response.ok({
+          success:true,
+          resp: resp
+      })
   }
 
 
