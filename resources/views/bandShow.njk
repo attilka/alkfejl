@@ -1,26 +1,30 @@
 {% extends "layout" %}
 
 {% block content %}
-<h2>{{ band.name }}</h2>
-{{ band.genre }}
-<h3>Tagok</h3>
-<pre>
-{{ band.members }}
-</pre>
-<h3>Honlap</h3>
-<pre>
-<a href="httpl://{{band.page}}">{{ band.page }}</a>
-</pre>
-<h3>Leírás</h3>
-<pre>
-{{ band.description }}
-</pre>
+    <div class="page-header">
+    <h1>{{ band.name }}</h1>
+    </div>
+    {% if band.genre %}
+        {{ band.genre }}
+    {% endif %}
+    {% if band.members %}
+        <h3>Tagok</h3>
+        <pre>{{ band.members }}</pre>
+    {% endif %}
+    {% if band.page %}
+        <h3>Honlap</h3>
+        <pre><a href="http://{{band.page}}" target="_blank">{{ band.page }}</a></pre>
+    {% endif %}
+    {% if band.description %}
+        <h3>Leírás</h3>
+        <pre>{{ band.description }}</pre>
+    {% endif %}
 
-<a href="/like/{{band.id}}">
-{% if (band.likes) %}
-Mégsem tetszik
-{% else %}
-Tetszik
-{% endif %}
-</a>
+    <a href="/like/{{band.id}}">
+        {% if (band.likes) %}
+            Mégsem tetszik
+        {% else %}
+            Tetszik
+        {% endif %}
+    </a>
 {% endblock %}

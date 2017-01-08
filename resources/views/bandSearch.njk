@@ -3,7 +3,7 @@
 {% block title %}Zenekarok{% endblock %}
 {% block content %}
   <form action="/bands" method="GET">
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-3">
         <div class="form-group">
           <label for="inputBandName">Zenekar neve</label>
@@ -16,18 +16,35 @@
           <button class="btn btn-block btn-primary" type="submit">Szűrés</button>
         </div>
       </div>
-    </div>
+    </div>-->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Keresés..." id="inputBandName" name="bandName" value="{{ bandName }}">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
   </form>
   <hr>
-  {% for bandBatch in bands.data | batch(3) %}
+  {% for bandBatch in bands.data | batch(4) %}
   <div class="row">
     {% for band in bandBatch %}
-    <div class="col-md-4">
+    <div class="col-md-3">
       <a class="result-item" href="/bands/{{ band.id }}">
-        <div class="panel panel-default">
+        <div class="panel panel-default band-container">
           <div class="panel-body">
+          <table>
+          <tr><td class="band-image-container" style="background-image: url('/avatars/{% if band.avatar %}{{ band.avatar }}{% else %}default.jpg{% endif %}')">
+          <!--<img src="/avatars/{% if band.avatar %}{{ band.avatar }}{% else %}default.jpg{% endif %}" class="avatar">-->
+          </td></tr>
+          <tr><td class="band-info">
             <strong>{{ band.name }}</strong><br>
             <em>{{ band.genre }}</em>
+            </td></tr>
+          </table>
           </div>
         </div>
       </a>

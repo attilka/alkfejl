@@ -10,7 +10,10 @@
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css" href="/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,7 +24,7 @@
     {% block styles %}{% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-default">
       <div class="container-fluid">
           <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
@@ -30,7 +33,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Zenekaros cucli</a>
+          <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-cd" aria-hidden="true"></span></a>
           </div>
 
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
@@ -48,11 +51,11 @@
           <ul class="nav navbar-nav navbar-right">
             {% if currentUser %}
               {% if currentUser.isBand %}
-                <a href="/bands/edit"><li class="navbar-text">{{ currentUser.username }}</li></a>
+                <li><a href="/bands/edit"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{ currentUser.username }}</a></li>
               {%else%}
-                <li class="navbar-text">Üdv, {{ currentUser.username }}!</li>
+                <li class="navbar-text">{{ currentUser.username }}</li>
               {%endif%}
-              <li><a href="/logout">Kilépés</a></li>
+              <li><a href="/logout"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Kijelentkezés</a></li>
             {% else %}
               <li><a href="/login">Belépés</a></li>
               <li><a href="/register">Regisztráció</a></li>

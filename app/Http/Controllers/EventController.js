@@ -56,13 +56,13 @@ class EventController {
   }
 
   * doEdit (request, response) {
-    const bandData = request.except('_csrf');
+    const eventData = request.except('_csrf');
 
     const rules = {
-      name: 'required'
+        date: 'required'
     };
 
-    const validation = yield Validator.validateAll(bandData, rules)
+    const validation = yield Validator.validateAll(eventData, rules)
 
     if (validation.fails()) {
       yield request
@@ -73,16 +73,31 @@ class EventController {
       return
     }
 
-    const band = yield Band.findBy('user_id', request.currentUser.id)
+    const id = request.param('id')
+    const event = yield Event.find(id)
     
-    band.name = bandData.name;
-    band.genre = bandData.genre;
-    band.page = bandData.page;
-    band.members = bandData.members;
-    band.description = bandData.description;
+    event.date=eventData.date;
+    event.tickets=eventData.tickets;
+    event.description=eventData.description;
 
-    yield band.save()
+    yield event.save()
     
+    response.redirect('/events/'+event.id)
+  }
+
+  * delete (request, response) {
+    const id = request.param('id')
+    const event = yield Event.find(id)
+    const band= yield Band.findBy('user_id', request.currentUser.id)
+
+
+    if (band == null || band.id != event.band_id) {
+      response.unauthorized('Access denied.')
+      return
+    }
+
+    yield event.deleteEvent();
+
     response.redirect('/')
   }
 

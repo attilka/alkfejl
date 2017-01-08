@@ -1,0 +1,22 @@
+{% extends "layout" %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Profilkép módosítása</h1>
+</div>
+
+<form class="form-horizontal" action="/bands/avatar?_method=PUT" enctype="multipart/form-data" method="post">
+
+  {{ csrfField }}
+
+  <div class="form-group">
+    <div class="col-lg-10">
+      <label class="btn btn-default btn-file">
+        Feltöltés... <input type="file" id="avatar" name="avatar">
+      </label>
+      <button type="submit" class="btn btn-primary">Mentés</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

@@ -12,14 +12,14 @@
 {% endif %}
   {% for event in events.data %}
   
-    <div class="panel panel-default">
-  <div class="panel-heading">
-    <a href="/events/{{event.id}}"><h3 class="panel-title">{{ event.band.name }}</h3></a>
-  </div>
-  <div class="panel-body">
-    {{ event.date }}<br/>{{ event.tickets }}<p class="description">{{ event.description }}</p>
-  </div>
-</div>
+    <div class="panel panel-default event-container">
+      <div class="panel-heading">
+        <a href="/events/{{event.id}}"><h3 class="panel-title">{{ event.band.name }}</h3></a>
+      </div>
+      <div class="panel-body">
+        {{ event.date }}<br/><a href="http://{{ event.tickets }}" target="_blank">{{ event.tickets }}</a><p class="description">{{ event.description }}</p>
+      </div>
+    </div>
 
   {% else %}
   Nincs közelgő esemény.

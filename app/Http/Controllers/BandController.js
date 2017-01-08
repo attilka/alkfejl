@@ -1,9 +1,12 @@
 'use strict'
 
+const Helpers = use('Helpers')
 const Band = use('App/Model/Band')
 const User = use('App/Model/User')
 const Like = use('App/Model/Like')
 const Validator = use('Validator')
+const Event = use('App/Model/Event')
+const EventController = use('App/Http/Controllers/EventController')
 
 class BandController {
 
@@ -51,13 +54,42 @@ class BandController {
     response.redirect('/')
   }
 
+  * delete (request, response) {
+    const band = yield Band.findBy('user_id', request.currentUser.id)
+    
+
+    if (band == null) {
+      response.unauthorized('Access denied.')
+      return
+    }
+
+    const events = yield Event.query().where('band_id', band.id).fetch()
+
+    for (let e of events){
+      yield e.deleteEvent()
+    }
+ 
+
+    const likes = yield Like.query().where('band_id', band.id).fetch()
+
+    for (let like of likes){
+      yield like.delete()
+    }
+
+    yield band.delete();
+    yield request.currentUser.delete();
+
+    response.redirect('/logout')
+  }
+
   * search (request, response) {
     const page = Math.max(1, request.input('p'))
     const name = request.input('bandName') || ''
 
     const bands = yield Band.query()
       .where('name','LIKE','%'+name+'%')
-      .paginate(page, 9)
+      .orderBy('name')
+      .paginate(page, 12)
 
     yield response.sendView('bandSearch', {
       bands: bands.toJSON(),
@@ -90,6 +122,30 @@ class BandController {
         response.redirect('/bands/'+id)
 
   }
+
+  * doUpdateAvatar (request, response) {
+    const avatar = request.file('avatar', {
+        maxSize: '2mb',
+        allowedExtensions: ['jpg', 'png', 'jpeg']
+    })
+
+    const band = yield Band.findBy('user_id', request.currentUser.id)
+    const fileName = `${band.id}.${avatar.extension()}`
+
+    yield avatar.move(Helpers.publicPath()+'/avatars/', fileName)
+    if (!avatar.moved()) {
+      response.badRequest(avatar.errors())
+      return
+    }
+    band.avatar = fileName;
+    yield band.save()
+    response.redirect('/')
+  }
+
+  * updateAvatar (request, response) {
+    yield response.sendView('updateAvatar')
+  }
+
 
 }
 
